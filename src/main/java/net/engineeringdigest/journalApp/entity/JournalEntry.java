@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import com.mongodb.lang.NonNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 @Document(collection = "journalEntries")
 public class JournalEntry {
     @Id
