@@ -1,24 +1,28 @@
 package net.engineeringdigest.journalApp.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repostiory.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Component
 public class UserService {
    @Autowired
    private UserRepository userRepository;
 
-   public void saveUser(User user) {
+   private static final PasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
+
+   public void saveNewUser(User user){
+      user.setPassword(passwordEncoder.encode(user.getPassword()));
+      user.setRoles(Arrays.asList("USER"));
       userRepository.save(user);
    }
-
    public List<User> getAll() {
       return userRepository.findAll();
    }
