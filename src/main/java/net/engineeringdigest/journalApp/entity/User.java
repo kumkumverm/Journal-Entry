@@ -9,9 +9,11 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 @Document(collection= "user")
+@Builder
 @Data
 public class User {
     @Id
