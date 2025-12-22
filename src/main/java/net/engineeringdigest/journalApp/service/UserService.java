@@ -6,11 +6,13 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repostiory.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@Slf4j
 @Component
 public class UserService {
    @Autowired
@@ -19,15 +21,16 @@ public class UserService {
    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
    public boolean saveNewUser(User user) {
-      try{
- user.setPassword(passwordEncoder.encode(user.getPassword()));
-      user.setRoles(Arrays.asList("USER"));
-      userRepository.save(user);
-      return true;
-      }catch(Exception e){
+      try {
+         user.setPassword(passwordEncoder.encode(user.getPassword()));
+         user.setRoles(Arrays.asList("USER"));
+         userRepository.save(user);
+         return true;
+      } catch (Exception e) {
+          log.info("hahahaa");
          return false;
       }
-     
+
    }
 
    public void saveAdmin(User user) {
