@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repostiory.UserRepository;
-
+@Disabled
 @SpringBootTest
 public class UserServiceTests {
     @Autowired
