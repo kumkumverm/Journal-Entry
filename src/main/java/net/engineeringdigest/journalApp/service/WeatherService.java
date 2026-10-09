@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import net.engineeringdigest.journalApp.api.response.WheatherResponse;
-@Component
+@Service 
 public class WeatherService {
     @Value("${weather.api.key}")
     private String apiKey;
