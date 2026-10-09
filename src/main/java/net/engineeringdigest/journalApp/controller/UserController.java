@@ -8,11 +8,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import net.engineeringdigest.journalApp.api.response.WheatherResponse;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repostiory.UserRepository;
 import net.engineeringdigest.journalApp.service.UserService;
+import net.engineeringdigest.journalApp.service.WeatherService;
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/user")
@@ -23,6 +28,8 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private WeatherService weatherService;
 
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody User user) {
@@ -40,5 +47,15 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         userRepository.deleteByUserName(authentication.getName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @GetMapping
+    public ResponseEntity<?> greeting() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        WheatherResponse wheatherResponse= weatherService.getWeather("Mumbai");
+        String greeting="";
+        if (wheatherResponse!=null){
+            greeting=", Weather feels like"+ wheatherResponse.getCurrent().getTemperature();
+        }
+        return new ResponseEntity<>("Hi "+authentication.getName()+greeting,HttpStatus.OK);
     }
 }
