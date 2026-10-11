@@ -53,6 +53,7 @@ public class JournalEntryController {
             journalEntryService.saveEntry(myEntry, userName);
             return new ResponseEntity<>(myEntry, HttpStatus.CREATED);
         } catch (Exception e) {
+            System.out.print(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

@@ -10,6 +10,7 @@ import net.engineeringdigest.journalApp.repostiory.JournalEntryRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 
 @Service
 public class JournalEntryService {
@@ -23,8 +24,14 @@ public class JournalEntryService {
     public void saveEntry(JournalEntry journalEntry, String userName) {
         try {
             User user = userService.findByUserName(userName);
+            if(user==null){
+                throw new RuntimeException("User not found:"+userName);
+            }
             journalEntry.setDate(LocalDateTime.now());
             JournalEntry saved = journalEntryRepository.save(journalEntry);
+            if(user.getJournalEntries()==null){
+                user.setJournalEntries(new ArrayList<>());
+            }
             user.getJournalEntries().add(saved);
             userService.saveUser(user);
         } catch (Exception e) {
