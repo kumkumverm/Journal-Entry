@@ -31,5 +31,6 @@ public class AppCache {
             APP_CACHE.put(configJournalAppEntity.getKey(), configJournalAppEntity.getValue());
 
         }
+        //System.out.println("Cache keys: " + APP_CACHE.keySet());
     }
 }
