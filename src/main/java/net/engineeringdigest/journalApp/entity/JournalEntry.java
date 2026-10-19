@@ -6,6 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.mongodb.lang.NonNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.engineeringdigest.journalApp.enums.SentimentEnum;
+
 import org.bson.types.ObjectId;
 
 @Data
@@ -18,4 +20,5 @@ public class JournalEntry {
     private String title;
     private String content;
     private LocalDateTime date;
+    private SentimentEnum sentiment;
 }
