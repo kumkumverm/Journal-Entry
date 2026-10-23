@@ -15,9 +15,10 @@ import net.engineeringdigest.journalApp.cache.AppCache;
 import net.engineeringdigest.journalApp.entity.JournalEntry;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.enums.SentimentEnum;
+import net.engineeringdigest.journalApp.model.SentimentData;
 import net.engineeringdigest.journalApp.repostiory.UserRepositoryImp;
 import net.engineeringdigest.journalApp.service.EmailService;
-
+import org.springframework.kafka.core.KafkaTemplate;
 @Component
 public class UserSchedular {
 
@@ -29,6 +30,9 @@ public class UserSchedular {
 
     @Autowired
     private UserRepositoryImp userRepsitory;
+
+    @Autowired
+    private KafkaTemplate<String,SentimentData> kafkaTemplate;
 
     public void fetchUsersAndSendSaMail() {
         List<User> users = userRepsitory.getUserforSA();
@@ -54,7 +58,8 @@ public class UserSchedular {
                 }
             }
             if (mostFrequentSentiment != null) {
-                emailService.sendEmail(user.getEmail(), "Sentiment for last 7 days", mostFrequentSentiment.toString());
+                SentimentData sentimentData= SentimentData.builder().email(user.getEmail()).sentiment("Sentiment for last 7 days "+mostFrequentSentiment).build();
+                kafkaTemplate.send("sentiment-analysis",sentimentData.getEmail(),sentimentData);
             }
         }
     }
