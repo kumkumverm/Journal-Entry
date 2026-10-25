@@ -59,7 +59,11 @@ public class UserSchedular {
             }
             if (mostFrequentSentiment != null) {
                 SentimentData sentimentData= SentimentData.builder().email(user.getEmail()).sentiment("Sentiment for last 7 days "+mostFrequentSentiment).build();
+                try{
                 kafkaTemplate.send("sentiment-analysis",sentimentData.getEmail(),sentimentData);
+                }catch(Exception e){
+                     emailService.sendEmail(sentimentData.getEmail(), "Sentiment for previous week",sentimentData.getSentiment());
+                }
             }
         }
     }
