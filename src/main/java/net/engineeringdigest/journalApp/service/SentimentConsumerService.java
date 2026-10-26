@@ -12,7 +12,8 @@ public class SentimentConsumerService {
     @Autowired
     private EmailService emailService;
 
-    @KafkaListener(topics = "sentiment-analysis", groupId = "sentiment-analysis-consumer")
+    @KafkaListener(topics = "sentiment-analysis",
+    autoStartup = "${app.kafka.enabled:false}", groupId = "sentiment-analysis-consumer")
     public void consume(SentimentData sentimentData) {
         sendEmail(sentimentData);
          System.out.println("===== KAFKA MESSAGE RECEIVED =====");
