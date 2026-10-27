@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import net.engineeringdigest.journalApp.api.response.WheatherResponse;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repostiory.UserRepository;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
+@Tag(name = "User APIs", description = "Read, Update and Delete User")
 @RequestMapping("/user")
 public class UserController {
 
@@ -48,14 +50,15 @@ public class UserController {
         userRepository.deleteByUserName(authentication.getName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
     @GetMapping
     public ResponseEntity<?> greeting() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        WheatherResponse wheatherResponse= weatherService.getWeather("Mumbai");
-        String greeting="";
-        if (wheatherResponse!=null){
-            greeting=", Weather feels like"+ wheatherResponse.getCurrent().getTemperature();
+        WheatherResponse wheatherResponse = weatherService.getWeather("Mumbai");
+        String greeting = "";
+        if (wheatherResponse != null) {
+            greeting = ", Weather feels like" + wheatherResponse.getCurrent().getTemperature();
         }
-        return new ResponseEntity<>("Hi "+authentication.getName()+greeting,HttpStatus.OK);
+        return new ResponseEntity<>("Hi " + authentication.getName() + greeting, HttpStatus.OK);
     }
 }
